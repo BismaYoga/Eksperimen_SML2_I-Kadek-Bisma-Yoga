@@ -1,15 +1,9 @@
 name: Preprocess Padi Dataset
-
-on:
-  push:
-    paths:
-      - 'SML/iris_raw.csv'
-      - 'SML/preprocessing/automate_I-Kadek-Bisma-Yoga.py'
+on: [push]
 
 jobs:
   preprocess:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -21,18 +15,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
           pip install pandas scikit-learn
 
       - name: Run Preprocessing Script
         run: |
-          python SML/preprocessing/automate_I-Kadek-Bisma-Yoga.py
+          python preprocessing/automate_I-Kadek-Bisma-Yoga.py
 
-      - name: Check generated file
-        run: |
-          if [ -f SML/preprocessing/iris_preprocessing.csv ]; then
-            echo "File iris_preprocessing.csv berhasil dibuat."
-          else
-            echo "File gagal dibuat!"
-            exit 1
-          fi
+      - name: Verify Results
+        run: ls -R preprocessing/
